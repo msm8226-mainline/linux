@@ -5,6 +5,7 @@
  * Copyright 2009 Benjamin Herrenschmidt, IBM Corp
  * benh@kernel.crashing.org
  */
+#define DEBUG
 
 #define pr_fmt(fmt)	"OF: fdt: " fmt
 
@@ -479,6 +480,7 @@ static u32 of_fdt_crc32;
 static int __init early_init_dt_reserve_memory(phys_addr_t base,
 					       phys_addr_t size, bool nomap)
 {
+	//printk(KERN_ERR "%s:%d DBG\n", __func__, __LINE__);
 	if (nomap) {
 		/*
 		 * If the memory is already reserved (by another region), we
@@ -486,11 +488,15 @@ static int __init early_init_dt_reserve_memory(phys_addr_t base,
 		 * if the region isn't memory as it won't be mapped.
 		 */
 		if (memblock_overlaps_region(&memblock.memory, base, size) &&
-		    memblock_is_region_reserved(base, size))
+		    memblock_is_region_reserved(base, size)) {
+			//printk(KERN_ERR "%s:%d DBG\n", __func__, __LINE__);
 			return -EBUSY;
+		}
 
+		//printk(KERN_ERR "%s:%d DBG\n", __func__, __LINE__);
 		return memblock_mark_nomap(base, size);
 	}
+	//printk(KERN_ERR "%s:%d DBG\n", __func__, __LINE__);
 	return memblock_reserve(base, size);
 }
 

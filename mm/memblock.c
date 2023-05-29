@@ -5,6 +5,7 @@
  * Peter Bergner, IBM Corp.	June 2001.
  * Copyright (C) 2001 Peter Bergner.
  */
+#define DEBUG
 
 #include <linux/kernel.h>
 #include <linux/slab.h>
@@ -155,7 +156,7 @@ static __refdata struct memblock_type *memblock_memory = &memblock.memory;
 			pr_info(fmt, ##__VA_ARGS__);			\
 	} while (0)
 
-static int memblock_debug __initdata_memblock;
+static int memblock_debug __initdata_memblock = 1;
 static bool system_has_some_mirror __initdata_memblock = false;
 static int memblock_can_resize __initdata_memblock;
 static int memblock_memory_in_slab __initdata_memblock = 0;
@@ -192,7 +193,10 @@ bool __init_memblock memblock_overlaps_region(struct memblock_type *type,
 		if (memblock_addrs_overlap(base, size, type->regions[i].base,
 					   type->regions[i].size))
 			break;
-	return i < type->cnt;
+	bool ret = i < type->cnt;
+	//if (ret != 0)
+	//	printk_ratelimited(KERN_ERR "%s:%d DBG ret=%d i=%lu cnt=%lu\n", __func__, __LINE__, ret, i, type->cnt);
+	return ret;
 }
 
 /**
@@ -1861,7 +1865,9 @@ bool __init_memblock memblock_is_region_memory(phys_addr_t base, phys_addr_t siz
  */
 bool __init_memblock memblock_is_region_reserved(phys_addr_t base, phys_addr_t size)
 {
-	return memblock_overlaps_region(&memblock.reserved, base, size);
+	bool ret = memblock_overlaps_region(&memblock.reserved, base, size);
+	//printk(KERN_ERR "%s:%d DBG ret=%d\n", __func__, __LINE__, ret);
+	return ret;
 }
 
 void __init_memblock memblock_trim_memory(phys_addr_t align)
@@ -1941,7 +1947,7 @@ static void __init_memblock __memblock_dump_all(void)
 
 void __init_memblock memblock_dump_all(void)
 {
-	if (memblock_debug)
+	//if (memblock_debug)
 		__memblock_dump_all();
 }
 

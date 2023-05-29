@@ -21,7 +21,7 @@
 		mmc1 = &sdhc_2; /* SDC2 SD card slot */
 	};
 
-#if 0
+#if 1
 	chosen {
 		#address-cells = <1>;
 		#size-cells = <1>;
@@ -100,47 +100,74 @@ qcom,memblock-remove = <0x8000000 0x7500000 0xfa00000 0x500000>;
 [    0.000000] unknown@8000000 (0x08000000--0x0f500000) overlaps with mba@d100000 (0x0d100000--0x0d13a000)
 */
 	reserved-memory {
-		unknown@5b00000 {
-			//0x5b00000 - 0x5d00000
-			reg = <0x05b00000 0x200000>;
+		unknown@fff {
+			//reg = <0x00000000 0x07500000>;
+			//reg = <0x00000000 0x0fa00000>;
+			//reg = <0x01000000 0xea00000>;
+			reg = <0x03000000 0xca00000>;
 			no-map;
 		};
-		unknown@7500000 { // TODO: giant region that contains most others
-			//0x7500000 - 0x11600000
-			reg = <0x07500000 0xa100000>;
-			no-map;
-		};
+		//unknown@5b00000 {
+		//	//0x5b00000 - 0x5d00000
+		//	reg = <0x05b00000 0x200000>;
+		//	no-map;
+		//};
+		//unknown@7500000 { // TODO: giant region that contains most others
+		//	//0x7500000 - 0x11600000
+		//	reg = <0x07500000 0xa100000>;
+		//	no-map;
+		//};
 
-		unknown@8000000 { // TODO: pretty big region that contains many others
-			reg = <0x08000000 0x7500000>; // until 0x0f500000
-			no-map;
-		};
-		modem_region: modem@8000000 {
-			reg = <0x08000000 0x4f00000>;
-			no-map;
-		};
-		mba_region: mba@d100000 {
-			reg = <0x0d100000 0x3a000>;
-			no-map;
-		};
-		adsp_region: adsp@dc00000 {
-			reg = <0x0dc00000 0x1400000>;
-			no-map;
-		};
-		venus_region: venus@f500000 {
-			reg = <0x0f500000 0x500000>;
-			no-map;
-		};
+		//unknown@8000000 { // TODO: pretty big region that contains many others
+		//	reg = <0x08000000 0x7500000>; // until 0x0f500000
+		//	no-map;
+		//};
+		//modem_region: modem@8000000 {
+		//	reg = <0x08000000 0x4f00000>;
+		//	no-map;
+		//};
+		//mba_region: mba@d100000 {
+		//	reg = <0x0d100000 0x3a000>;
+		//	no-map;
+		//};
+		//adsp_region: adsp@dc00000 {
+		//	reg = <0x0dc00000 0x1400000>;
+		//	no-map;
+		//};
+		//venus_region: venus@f500000 {
+		//	reg = <0x0f500000 0x500000>;
+		//	no-map;
+		//};
 		smem_region: smem@fa00000 {
 			reg = <0x0fa00000 0x100000>;
 			no-map;
 		};
 		unknown@fb00000 {
-			reg = <0x0fb00000 0x400000>;
+			reg = <0x0fb00000 0xf2d000>; // until 0x10a2d000
 			no-map;
 		};
+		//unknown@fb00000 {
+		//	reg = <0x0fb00000 0x400000>;
+		//	no-map;
+		//};
 		framebuffer@10a2d000 {
 			reg = <0x10a2d000 0x800000>; // TODO: Fix size
+			no-map;
+		};
+		unknown@1122d000 {
+			reg = <0x1122d000 0xedd3000>; // until 0x20000000
+			no-map;
+		};
+		//unknown@12 { // FIXME just for testing
+		//	reg = <0x00 0x20000000>;
+		//	no-map;
+		//};
+		unknown@123 { // FIXME just for testing
+			//reg = <0x00 0x20000000>;
+			//reg = <0x20000000 0x20000000>;
+			//reg = <0x20000000 0x10000000>; // with this one seems to crash super early
+			//reg = <0x30000000 0x10000000>;
+			reg = <0x25000000 0x15000000>;
 			no-map;
 		};
 	};
@@ -148,6 +175,7 @@ qcom,memblock-remove = <0x8000000 0x7500000 0xfa00000 0x500000>;
 
 &adsp {
 	status = "okay";
+	/delete-property/ memory-region; // FIXME remove
 };
 
 &blsp1_i2c2 {
@@ -240,6 +268,7 @@ qcom,memblock-remove = <0x8000000 0x7500000 0xfa00000 0x500000>;
 	status = "okay";
 };
 
+#if 0
 &dsi0 {
 	vdda-supply = <&pm8226_l4>;
 	vdd-supply = <&pm8226_l23>;
@@ -274,6 +303,7 @@ qcom,memblock-remove = <0x8000000 0x7500000 0xfa00000 0x500000>;
 &mdss {
 	status = "okay";
 };
+#endif
 
 &rpm_requests {
 	regulators {

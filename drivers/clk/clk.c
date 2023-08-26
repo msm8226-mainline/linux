@@ -1332,12 +1332,15 @@ static void __init clk_unprepare_unused_subtree(struct clk_core *core)
 		return;
 
 	if (clk_core_is_prepared(core)) {
+		printk(KERN_ERR "DBG Would unprepare clock %s\n", core->name);
+#if 0
 		trace_clk_unprepare(core);
 		if (core->ops->unprepare_unused)
 			core->ops->unprepare_unused(core->hw);
 		else if (core->ops->unprepare)
 			core->ops->unprepare(core->hw);
 		trace_clk_unprepare_complete(core);
+#endif
 	}
 
 	clk_pm_runtime_put(core);
@@ -1373,12 +1376,15 @@ static void __init clk_disable_unused_subtree(struct clk_core *core)
 	 * back to .disable
 	 */
 	if (clk_core_is_enabled(core)) {
+		printk(KERN_ERR "DBG Would disable clock %s\n", core->name);
+#if 0
 		trace_clk_disable(core);
 		if (core->ops->disable_unused)
 			core->ops->disable_unused(core->hw);
 		else if (core->ops->disable)
 			core->ops->disable(core->hw);
 		trace_clk_disable_complete(core);
+#endif
 	}
 
 unlock_out:

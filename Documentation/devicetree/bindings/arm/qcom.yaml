@@ -189,6 +189,12 @@ properties:
 
       - items:
           - enum:
+              - htc,memul
+          - const: qcom,msm8926
+          - const: qcom,msm8226
+
+      - items:
+          - enum:
               - samsung,a7
               - sony,kanuti-tulip
               - square,apq8039-t2

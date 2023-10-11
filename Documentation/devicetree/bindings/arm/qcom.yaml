@@ -191,6 +191,12 @@ properties:
 
       - items:
           - enum:
+              - htc,memul
+          - const: qcom,msm8926
+          - const: qcom,msm8226
+
+      - items:
+          - enum:
               - longcheer,l9100
               - samsung,a7
               - sony,kanuti-tulip

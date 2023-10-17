@@ -151,6 +151,7 @@ properties:
               - huawei,sturgeon
               - lg,lenok
               - samsung,matisse-wifi
+              - samsung,milletwifi
           - const: qcom,apq8026
 
       - items:

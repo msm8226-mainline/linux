@@ -7,6 +7,7 @@
 /dts-v1/;
 
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/power/summit,smb347-charger.h>
 #include "qcom-msm8226.dtsi"
 #include "qcom-pm8226.dtsi"
 
@@ -258,6 +259,26 @@
 	};
 };
 
+&blsp1_i2c3 {
+	status = "okay";
+
+	charger@6a {
+		compatible = "summit,smb358";
+		reg = <0x6a>;
+
+		interrupts-extended = <&tlmm 115 IRQ_TYPE_EDGE_FALLING>;
+
+		pinctrl-0 = <&charger_int_default_state>;
+		pinctrl-names = "default";
+
+		summit,enable-usb-charging;
+		summit,enable-charge-control = <SMB3XX_CHG_ENABLE_SW>;
+		summit,fast-voltage-threshold-microvolt = <3000000>;
+		summit,chip-temperature-threshold-celsius = <130>;
+		summit,usb-current-limit-microamp = <1500000>;
+	};
+};
+
 &blsp1_i2c4 {
 	status = "okay";
 
@@ -490,6 +511,13 @@
 
 	backlight_vddio_default_state: backlight-vddio-default-state {
 		pins = "gpio74";
+		function = "gpio";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	charger_int_default_state: charger-int-default-state {
+		pins = "gpio115";
 		function = "gpio";
 		drive-strength = <2>;
 		bias-disable;

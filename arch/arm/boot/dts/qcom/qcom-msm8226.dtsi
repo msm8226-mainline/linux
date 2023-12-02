@@ -32,6 +32,7 @@
 			next-level-cache = <&L2>;
 			clocks = <&apcs>;
 			operating-points-v2 = <&cpu_opp_table>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
 			qcom,acc = <&acc0>;
 			qcom,saw = <&saw0>;
 
@@ -50,6 +51,7 @@
 			next-level-cache = <&L2>;
 			clocks = <&apcs>;
 			operating-points-v2 = <&cpu_opp_table>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
 			qcom,acc = <&acc1>;
 			qcom,saw = <&saw1>;
 		};
@@ -62,6 +64,7 @@
 			next-level-cache = <&L2>;
 			clocks = <&apcs>;
 			operating-points-v2 = <&cpu_opp_table>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
 			qcom,acc = <&acc2>;
 			qcom,saw = <&saw2>;
 		};
@@ -74,8 +77,20 @@
 			next-level-cache = <&L2>;
 			clocks = <&apcs>;
 			operating-points-v2 = <&cpu_opp_table>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
 			qcom,acc = <&acc3>;
 			qcom,saw = <&saw3>;
+		};
+
+		idle-states {
+			CPU_SLEEP_0: cpu-sleep-0 {
+				compatible = "qcom,idle-state-spc";
+				idle-state-name = "standalone-power-collapse";
+				entry-latency-us = <700>;
+				exit-latency-us = <500>;
+				min-residency-us = <3600>;
+				local-timer-stop;
+			};
 		};
 	};
 

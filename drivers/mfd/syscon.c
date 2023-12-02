@@ -122,17 +122,18 @@ static struct syscon *of_syscon_register(struct device_node *np, bool check_res)
 	}
 
 	if (check_res) {
-		clk = of_clk_get(np, 0);
-		if (IS_ERR(clk)) {
-			ret = PTR_ERR(clk);
-			/* clock is optional */
-			if (ret != -ENOENT)
-				goto err_clk;
-		} else {
-			ret = regmap_mmio_attach_clk(regmap, clk);
-			if (ret)
-				goto err_attach_clk;
-		}
+		// FIXME apcs should not attach a7pll and reconfigure it before even proper apcs driver has probed!
+		//clk = of_clk_get(np, 0);
+		//if (IS_ERR(clk)) {
+		//	ret = PTR_ERR(clk);
+		//	/* clock is optional */
+		//	if (ret != -ENOENT)
+		//		goto err_clk;
+		//} else {
+		//	ret = regmap_mmio_attach_clk(regmap, clk);
+		//	if (ret)
+		//		goto err_attach_clk;
+		//}
 
 		reset = of_reset_control_get_optional_exclusive(np, NULL);
 		if (IS_ERR(reset)) {

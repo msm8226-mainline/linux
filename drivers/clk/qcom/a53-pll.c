@@ -110,7 +110,7 @@ static int qcom_a53pll_probe(struct platform_device *pdev)
 	pll->l_reg = 0x04;
 	pll->m_reg = 0x08;
 	pll->n_reg = 0x0c;
-	pll->config_reg = 0x14;
+	pll->config_reg = 0x10; // 0x14 msm8916 // 0x10 ???
 	pll->mode_reg = 0x00;
 	pll->status_reg = 0x1c;
 	pll->status_bit = 16;
@@ -151,6 +151,7 @@ static int qcom_a53pll_probe(struct platform_device *pdev)
 }
 
 static const struct of_device_id qcom_a53pll_match_table[] = {
+	{ .compatible = "qcom,msm8226-a7pll" },
 	{ .compatible = "qcom,msm8916-a53pll" },
 	{ .compatible = "qcom,msm8939-a53pll" },
 	{ }

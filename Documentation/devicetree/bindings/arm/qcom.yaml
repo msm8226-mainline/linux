@@ -193,6 +193,7 @@ properties:
       - items:
           - enum:
               - htc,memul
+              - motorola,peregrine
           - const: qcom,msm8926
           - const: qcom,msm8226
 

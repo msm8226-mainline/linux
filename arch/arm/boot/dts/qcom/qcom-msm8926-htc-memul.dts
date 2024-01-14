@@ -197,6 +197,10 @@
 	/* TPS61310 Flash/Torch @ 33 */
 };
 
+&gpu {
+	status = "okay";
+};
+
 &pm8226_vib {
 	status = "okay";
 };

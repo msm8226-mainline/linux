@@ -2620,6 +2620,15 @@ static const struct rproc_hexagon_res msm8226_mss = {
 		},
 		{}
 	},
+	// FIXME Only msm8926
+	.active_supply = (struct qcom_mss_reg_res[]) {
+		{
+			.supply = "mss",
+			.uV = 1050000,
+			.uA = 100000,
+		},
+		{}
+	},
 	.proxy_clk_names = (char*[]){
 		"xo",
 		NULL
@@ -2639,7 +2648,7 @@ static const struct rproc_hexagon_res msm8226_mss = {
 	.has_mba_logs = false,
 	.has_spare_reg = false,
 	.has_qaccept_regs = false,
-	.has_ext_bhs_reg = true,
+	.has_ext_bhs_reg = false, // FIXME 8926, 8226 needs true,
 	.has_ext_cntl_regs = false,
 	.has_vq6 = false,
 	.version = MSS_MSM8226,

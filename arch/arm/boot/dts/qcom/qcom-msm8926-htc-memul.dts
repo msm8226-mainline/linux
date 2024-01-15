@@ -200,6 +200,14 @@
 	status = "okay";
 };
 
+&modem {
+	mx-supply = <&pm8226_l3>;
+	pll-supply = <&pm8226_l8>;
+	mss-supply = <&pm8226_s5>;
+
+	status = "okay";
+};
+
 &pm8226_vib {
 	status = "okay";
 };

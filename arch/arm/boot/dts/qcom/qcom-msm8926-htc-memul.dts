@@ -109,8 +109,8 @@
 			no-map;
 		};
 
-		unknown@fc00000 {
-			reg = <0x0fc00000 0x180000>;
+		unknown@fb00000 {
+			reg = <0x0fb00000 0x280000>;
 			no-map;
 		};
 
@@ -123,7 +123,7 @@
 		};
 
 		unknown@ff00000 {
-			reg = <0x0ff00000 0x700000>;
+			reg = <0x0ff00000 0x1700000>;
 			no-map;
 		};
 	};

@@ -304,6 +304,7 @@
 		touchscreen-size-y = <1280>;
 		avdd-supply = <&reg_tsp_3p3v>;
 		vdd-supply = <&reg_tsp_1p8v>;
+		linux,keycodes = <KEY_APPSELECT KEY_BACK>;
 
 		pinctrl-0 = <&tsp_int_rst_default_state>;
 		pinctrl-names = "default";

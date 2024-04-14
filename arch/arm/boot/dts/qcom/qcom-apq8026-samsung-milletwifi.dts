@@ -107,8 +107,9 @@
 			init-brt = /bits/ 8 <0x3f>;
 
 			/*
-			 * Change transition duration: 200ms, Change transition strength: heavy,
-			 * PWM hysteresis: 1-bit w/ 8-bit resolution
+			 * Change transition duration: 200ms, Change
+			 * transition strength: heavy, PWM hysteresis:
+			 * 1-bit w/ 8-bit resolution
 			 */
 			rom-a3h {
 				rom-addr = /bits/ 8 <0xa3>;
@@ -116,7 +117,8 @@
 			};
 
 			/*
-			 * PWM output phase configuration: 3-phase, 3 drivers (0, 120deg, 240deg, -, -, -),
+			 * PWM phase configuration: 3-phase/3 drivers
+			 * (0, 120deg, 240deg, -, -, -),
 			 * PWM frequency: 9616Hz (10-bit)
 			 */
 			rom-a5h {
@@ -124,7 +126,10 @@
 				rom-val = /bits/ 8 <0x34>;
 			};
 
-			/* Enable LED drivers 2 & 3, Boot inductor current limit: 1.5A/2.6A */
+			/*
+			 * Enable LED drivers 2 & 3, Boot inductor
+			 * current limit: 1.5A/2.6A
+			 */
 			rom-a7h {
 				rom-addr = /bits/ 8 <0xa7>;
 				rom-val = /bits/ 8 <0xfa>;
@@ -141,8 +146,8 @@
 		gpio = <&tlmm 74 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 
-		pinctrl-names = "default";
 		pinctrl-0 = <&backlight_vddio_default_state>;
+		pinctrl-names = "default";
 	};
 
 	reg_tsp_1p8v: regulator-tsp-1p8v {
@@ -154,8 +159,8 @@
 		gpio = <&tlmm 114 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 
-		pinctrl-names = "default";
 		pinctrl-0 = <&tsp_en1_default_state>;
+		pinctrl-names = "default";
 	};
 
 	reg_tsp_3p3v: regulator-tsp-3p3v {
@@ -167,8 +172,8 @@
 		gpio = <&tlmm 31 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 
-		pinctrl-names = "default";
 		pinctrl-0 = <&tsp_en_default_state>;
+		pinctrl-names = "default";
 	};
 
 	reserved-memory {
@@ -248,14 +253,14 @@
 		pinctrl-0 = <&accel_int_default_state>;
 		pinctrl-names = "default";
 
-		st,drdy-int-pin = <1>;
-
 		vdd-supply = <&pm8226_l19>;
 		vddio-supply = <&pm8226_lvs1>;
 
 		mount-matrix = "0", "1", "0",
 			       "-1", "0", "0",
 			       "0", "0", "1";
+
+		st,drdy-int-pin = <1>;
 	};
 };
 
@@ -304,6 +309,7 @@
 		touchscreen-size-y = <1280>;
 		avdd-supply = <&reg_tsp_3p3v>;
 		vdd-supply = <&reg_tsp_1p8v>;
+		linux,keycodes = <KEY_APPSELECT KEY_BACK>;
 
 		pinctrl-0 = <&tsp_int_rst_default_state>;
 		pinctrl-names = "default";

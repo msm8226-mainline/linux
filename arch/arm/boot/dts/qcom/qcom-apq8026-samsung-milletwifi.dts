@@ -26,6 +26,7 @@
 		display0 = &framebuffer0;
 		mmc0 = &sdhc_1; /* SDC1 eMMC slot */
 		mmc1 = &sdhc_2; /* SDC2 SD card slot */
+		serial0 = &blsp1_uart3;
 	};
 
 	chosen {
@@ -33,7 +34,7 @@
 		#size-cells = <1>;
 		ranges;
 
-		stdout-path = "display0";
+		stdout-path = "serial0:115200n8";
 
 		framebuffer0: framebuffer@3200000 {
 			compatible = "simple-framebuffer";
@@ -314,6 +315,10 @@
 		pinctrl-0 = <&tsp_int_rst_default_state>;
 		pinctrl-names = "default";
 	};
+};
+
+&blsp1_uart3 {
+	status = "okay";
 };
 
 &modem {

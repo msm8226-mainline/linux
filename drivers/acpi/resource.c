@@ -511,24 +511,10 @@ static const struct dmi_system_id irq1_level_low_skip_override[] = {
 		},
 	},
 	{
-		/* Asus Vivobook Pro N6506MV */
+		/* Asus Vivobook Pro N6506M* */
 		.matches = {
 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-			DMI_MATCH(DMI_BOARD_NAME, "N6506MV"),
-		},
-	},
-	{
-		/* Asus Vivobook Pro N6506MU */
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-			DMI_MATCH(DMI_BOARD_NAME, "N6506MU"),
-		},
-	},
-	{
-		/* Asus Vivobook Pro N6506MJ */
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-			DMI_MATCH(DMI_BOARD_NAME, "N6506MJ"),
+			DMI_MATCH(DMI_BOARD_NAME, "N6506M"),
 		},
 	},
 	{
@@ -536,6 +522,13 @@ static const struct dmi_system_id irq1_level_low_skip_override[] = {
 		.matches = {
 			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
 			DMI_MATCH(DMI_BOARD_NAME, "17U70P"),
+		},
+	},
+	{
+		/* LG Electronics 16T90SP */
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
+			DMI_MATCH(DMI_BOARD_NAME, "16T90SP"),
 		},
 	},
 	{ }

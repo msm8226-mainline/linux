@@ -167,7 +167,7 @@ static int iio_gts_gain_cmp(const void *a, const void *b)
 
 static int gain_to_scaletables(struct iio_gts *gts, int **gains, int **scales)
 {
-	int ret, i, j, new_idx, time_idx;
+	int i, j, new_idx, time_idx, ret = 0;
 	int *all_gains;
 	size_t gain_bytes;
 
@@ -307,13 +307,15 @@ static int iio_gts_build_avail_scale_table(struct iio_gts *gts)
 	if (ret)
 		goto err_free_out;
 
+	for (i = 0; i < gts->num_itime; i++)
+		kfree(per_time_gains[i]);
 	kfree(per_time_gains);
 	gts->per_time_avail_scale_tables = per_time_scales;
 
 	return 0;
 
 err_free_out:
-	for (i--; i; i--) {
+	for (i--; i >= 0; i--) {
 		kfree(per_time_scales[i]);
 		kfree(per_time_gains[i]);
 	}

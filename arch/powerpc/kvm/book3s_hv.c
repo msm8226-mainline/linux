@@ -4148,7 +4148,7 @@ void kvmhv_set_l2_counters_status(int cpu, bool status)
 		lppaca_of(cpu).l2_counters_enable = 0;
 }
 
-int kmvhv_counters_tracepoint_regfunc(void)
+int kvmhv_counters_tracepoint_regfunc(void)
 {
 	int cpu;
 
@@ -4158,7 +4158,7 @@ int kmvhv_counters_tracepoint_regfunc(void)
 	return 0;
 }
 
-void kmvhv_counters_tracepoint_unregfunc(void)
+void kvmhv_counters_tracepoint_unregfunc(void)
 {
 	int cpu;
 
@@ -4302,6 +4302,15 @@ static int kvmhv_vcpu_entry_p9_nested(struct kvm_vcpu *vcpu, u64 time_limit, uns
 		hvregs.vcpu_token = vcpu->vcpu_id;
 	}
 	hvregs.hdec_expiry = time_limit;
+
+	/*
+	 * hvregs has the doorbell status, so zero it here which
+	 * enables us to receive doorbells when H_ENTER_NESTED is
+	 * in progress for this vCPU
+	 */
+
+	if (vcpu->arch.doorbell_request)
+		vcpu->arch.doorbell_request = 0;
 
 	/*
 	 * When setting DEC, we must always deal with irq_work_raise
@@ -4892,9 +4901,20 @@ int kvmhv_run_single_vcpu(struct kvm_vcpu *vcpu, u64 time_limit,
 							   BOOK3S_INTERRUPT_EXTERNAL, 0);
 			else
 				lpcr |= LPCR_MER;
+		} else {
+			/*
+			 * L1's copy of L2's LPCR (vcpu->arch.vcore->lpcr) can get its MER bit
+			 * unexpectedly set - for e.g. during NMI handling when all register
+			 * states are synchronized from L0 to L1. L1 needs to inform L0 about
+			 * MER=1 only when there are pending external interrupts.
+			 * In the above if check, MER bit is set if there are pending
+			 * external interrupts. Hence, explicity mask off MER bit
+			 * here as otherwise it may generate spurious interrupts in L2 KVM
+			 * causing an endless loop, which results in L2 guest getting hung.
+			 */
+			lpcr &= ~LPCR_MER;
 		}
 	} else if (vcpu->arch.pending_exceptions ||
-		   vcpu->arch.doorbell_request ||
 		   xive_interrupt_pending(vcpu)) {
 		vcpu->arch.ret = RESUME_HOST;
 		goto out;

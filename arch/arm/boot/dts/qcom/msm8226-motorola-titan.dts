@@ -209,6 +209,7 @@
 		pm8226_l8: l8 {
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <1800000>;
+			regulator-always-on;
 		};
 
 		pm8226_l9: l9 {
@@ -354,6 +355,30 @@
 	v3p3-supply = <&pm8226_l20>;
 };
 
+&pronto {
+	vddmx-supply = <&pm8226_l3>;
+	vddpx-supply = <&pm8226_l6>;
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&wcnss_pin_a>;
+
+	status = "okay";
+
+	iris {
+		compatible = "qcom,wcn3620";
+		vddxo-supply = <&pm8226_l10>;
+		vddrfa-supply = <&pm8226_l24>;
+		vddpa-supply = <&pm8226_l16>;
+		vdddig-supply = <&pm8226_l24>;
+	};
+
+	smd-edge {
+		wcnss {
+			status = "okay";
+		};
+	};
+};
+
 &tlmm {
 	reg_lcd_default: reg-lcd-default-state {
 		pins = "gpio12", "gpio13";
@@ -366,6 +391,13 @@
 	sdhc2_cd_default: sdhc2-cd-default-state {
 		pins = "gpio38";
 		function = "gpio";
+		drive-strength = <2>;
+		bias-pull-up;
+	};
+
+	wcnss_pin_a: wcnss-pin-active-state {
+		pins =  "gpio40", "gpio41", "gpio42", "gpio43", "gpio44";
+		function = "wlan";
 		drive-strength = <2>;
 		bias-pull-up;
 	};

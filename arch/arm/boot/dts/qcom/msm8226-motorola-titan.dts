@@ -84,6 +84,19 @@
 		regulator-boot-on;
 	};
 
+	vdd_touch_vreg: regulator-vdd-touch {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd_touch";
+
+		gpio = <&tlmm 73 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <300>;
+		enable-active-high;
+		regulator-pull-down;
+
+		pinctrl-0 = <&tp_avdd_en_default_state>;
+		pinctrl-names = "default";
+	};
+
 	reserved-memory {
 		#address-cells = <1>;
 		#size-cells = <1>;
@@ -142,6 +155,39 @@
 			regulator-active-discharge = <1>;
 			regulator-boot-on;
 			enable-gpios = <&tlmm 13 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&blsp1_i2c5 {
+	status = "okay";
+
+	touchscreen@20 {
+		compatible = "syna,rmi4-i2c";
+		reg = <0x20>;
+
+		interrupts-extended = <&tlmm 17 IRQ_TYPE_EDGE_FALLING>;
+		reset-gpios = <&tlmm 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+
+		vdd-supply = <&vdd_touch_vreg>;
+		vio-supply = <&pm8226_lvs1>;
+
+		pinctrl-0 = <&touch_pin>;
+		pinctrl-names = "default";
+
+		syna,startup-delay-ms = <100>;
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		rmi4-f01@1 {
+			reg = <0x1>;
+			syna,nosleep-mode = <1>;
+		};
+
+		rmi4-f11@11 {
+			reg = <0x11>;
+			syna,sensor-type = <1>;
 		};
 	};
 };
@@ -388,6 +434,14 @@
 		output-high;
 	};
 
+	touch_pin: touch-state {
+		pins = "gpio17";
+		function = "gpio";
+
+		drive-strength = <2>;
+		bias-disable;
+	};
+
 	sdhc2_cd_default: sdhc2-cd-default-state {
 		pins = "gpio38";
 		function = "gpio";
@@ -400,5 +454,13 @@
 		function = "wlan";
 		drive-strength = <2>;
 		bias-pull-up;
+	};
+
+	tp_avdd_en_default_state: touch-avdd-en-pin-default-state {
+		pins = "gpio73";
+		function = "gpio";
+		drive-strength = <2>;
+		bias-pull-up;
+		output-high;
 	};
 };

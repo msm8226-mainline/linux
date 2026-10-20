@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2026, Antipov Kostiantyn <dev@diablosat.cc>
+ */
+
+/dts-v1/;
+
+#include "qcom-msm8226.dtsi"
+#include "qcom-apq8026-lg-common.dtsi"
+
+/ {
+	model = "LG Watch Urbane";
+	compatible = "lg,bass", "qcom,apq8026";
+	chassis-type = "watch";
+	qcom,board-id = <133 0x0a>;
+	qcom,msm-id = <199 0x20000>;
+};
+
+

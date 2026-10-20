@@ -124,6 +124,7 @@ properties:
           - enum:
               - asus,sparrow
               - huawei,sturgeon
+              - lg,bass
               - lg,lenok
               - samsung,matisse-wifi
               - samsung,milletwifi

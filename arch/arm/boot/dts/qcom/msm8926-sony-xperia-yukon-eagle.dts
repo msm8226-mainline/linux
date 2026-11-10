@@ -190,6 +190,27 @@
 	};
 };
 
+&blsp1_i2c5 {
+	status = "okay";
+
+	touchscreen@24 {
+		compatible = "cypress,cy8ctma460";
+		reg = <0x24>;
+
+		vccd-supply = <&pm8226_l27>;
+		vddd-supply = <&pm8226_l19>;
+
+		interrupts-extended = <&tlmm 17 IRQ_TYPE_EDGE_RISING>;
+		reset-gpios = <&tlmm 16 GPIO_ACTIVE_LOW>;
+
+		touchscreen-size-x = <540>;
+		touchscreen-size-y = <960>;
+
+		touchscreen-inverted-x;
+		touchscreen-inverted-y;
+	};
+};
+
 &pm8226_resin {
 	linux,code = <KEY_VOLUMEUP>;
 
